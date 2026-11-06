@@ -1,9 +1,7 @@
-import "./App.css";
-
 function App() {
   return (
     <>
-      <h1>Anglium</h1>
+      <h1>Англиум</h1>
     </>
   );
 }
