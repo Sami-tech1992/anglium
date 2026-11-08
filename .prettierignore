@@ -1,0 +1,16 @@
+# Зависимости
+node_modules/
+
+# Сборка
+dist/
+build/
+
+# Файлы блокировки (генерируются автоматически, их не трогаем)
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Служебные файлы и логи
+.git/
+.vscode/
+*.log

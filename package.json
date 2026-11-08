@@ -8,11 +8,16 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "typecheck": "tsc -b --noEmit"
+    "typecheck": "tsc -b --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.9.10",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "save-dev": "^0.0.1-security"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
