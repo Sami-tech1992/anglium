@@ -1,74 +1,22 @@
-# React + TypeScript + Vite
+# Англиум — Школа английского языка
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Веб-приложение для школы английского языка. Платформа позволяет родителям выбирать программы обучения (по учебникам Power Up, Own It, Go Getter и др.) и записывать детей в группы.
 
-Currently, two official plugins are available:
+## 🛠 Стек технологий
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React** — библиотека для построения пользовательских интерфейсов.
+- **TypeScript** — типизированный JavaScript для надежности кода.
+- **Vite** — быстрый сборщик и dev-сервер.
+- **Redux Toolkit / RTK Query** — _(будет добавлено на следующих этапах)_ управление состоянием и запросы к API.
+- **ESLint + Prettier** — линтинг и форматирование кода.
+- **Husky + lint-staged + commitlint** — проверка кода и сообщений коммитов перед сохранением.
 
-## React Compiler
+## 🚀 Как запустить
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Убедитесь, что у вас установлены [Node.js](https://nodejs.org/) и `npm`.
 
-## Expanding the ESLint configuration
+**1. Установка зависимостей:**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint  
-rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+npm install
 ```
