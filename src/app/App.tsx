@@ -1,23 +1,22 @@
-import Tipography from '@mui/material/Typography';
+// src/app/App.tsx
+import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
-import { ThemeToggle } from '@/shared/ui/ThemeToggle';
+import { PageLayout } from '../shared/layout/PageLayout';
 
 function App() {
   return (
-    <>
-      <Stack spacing={3} sx={{ p: 4, alignItems: 'flex-start' }}>
-        <ThemeToggle />
-
-        <Tipography variant="h2" component="h1">
+    <PageLayout>
+      <Stack spacing={3} sx={{ alignItems: 'center' }}>
+        <Typography variant="h3" component="h1">
           Англиум — школа английского языка
-        </Tipography>
-        <Button variant="contained" color="secondary" endIcon={<SendIcon />}>
+        </Typography>
+        <Button variant="contained" endIcon={<SendIcon />}>
           Записаться на обучение
         </Button>
       </Stack>
-    </>
+    </PageLayout>
   );
 }
 
