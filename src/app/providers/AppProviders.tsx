@@ -1,21 +1,15 @@
-import type { ReactNode } from 'react';
+// src/app/providers/AppProviders.tsx
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { theme } from '../../shared/theme/theme';
+import { RouterProvider } from 'react-router';
+import { theme } from '@/shared/theme/theme';
+import { router } from '../router';
 
-interface AppProvidersProps {
-  children: ReactNode;
-}
-
-/**
- * Компонент-обертка для всех глобальных провайдеров приложения.
- * Сюда в будущем можно добавлять Router, Redux Provider, QueryClientProvider и т.д.
- */
-export function AppProviders({ children }: AppProvidersProps) {
+export function AppProviders() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {children}
+      <RouterProvider router={router} />
     </ThemeProvider>
   );
 }
