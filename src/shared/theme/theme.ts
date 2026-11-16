@@ -51,6 +51,14 @@ export const theme = createTheme({
         underline: 'hover',
       },
     },
+    // 6. Скелетоны: задаем цвет из палитры, чтобы были видны в обеих темах
+    MuiSkeleton: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: theme.palette.action.hover,
+        }),
+      },
+    },
   },
 
   shape: {
