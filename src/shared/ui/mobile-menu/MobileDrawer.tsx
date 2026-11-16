@@ -29,7 +29,7 @@ export function MobileDrawer({ open, onClose }: MobileDrawerProps) {
     >
       <DrawerHeader />
       <Divider />
-      <DrawerNavList onItemClick={onClose} />
+      <DrawerNavList /> {/* <-- Больше не передаем onItemClick */}
       <DrawerFooter />
     </Drawer>
   );
