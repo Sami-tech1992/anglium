@@ -1,38 +1,34 @@
 // src/shared/ui/mobile-menu/DrawerNavList.tsx
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { useMobileMenu } from './MobileMenuContext';
+import { ROUTES } from '@/shared/config/routes';
 
-const menuItems = ['Каталог', 'Словарь', 'Квиз', 'О школе'];
+const menuItems = [
+  { label: 'Каталог', path: ROUTES.courses },
+  { label: 'Словарь', path: ROUTES.dictionary },
+  { label: 'Квиз', path: ROUTES.quiz },
+  { label: 'О школе', path: ROUTES.home },
+];
 
-interface DrawerNavListProps {
-  onItemClick: () => void;
-}
+export function DrawerNavList() {
+  const { closeMenu } = useMobileMenu(); // <-- Получаем функцию из контекста
 
-export function DrawerNavList({ onItemClick }: DrawerNavListProps) {
   return (
-    <Box
-      sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 1 }}
-      role="presentation"
-    >
+    <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 1 }}>
       {menuItems.map((item) => (
         <Button
-          key={item}
+          key={item.path}
+          href={item.path} // MUI сам подставит NavLink (из темы)
+          onClick={closeMenu} // <-- Закрываем меню при клике
           fullWidth
-          onClick={onItemClick}
           sx={{
             justifyContent: 'flex-start',
             color: 'text.primary',
             fontSize: '1.1rem',
-            py: 1.5,
-            px: 2,
-            borderRadius: 2,
-            textTransform: 'none',
-            '&:hover': {
-              backgroundColor: 'action.hover',
-            },
           }}
         >
-          {item}
+          {item.label}
         </Button>
       ))}
     </Box>

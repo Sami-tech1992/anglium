@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import { LinkBehavior } from '@/shared/lib/LinkBehavior';
 
 export const theme = createTheme({
   typography: {
@@ -12,14 +13,21 @@ export const theme = createTheme({
   },
 
   components: {
-    // 1. Кнопки: убираем CAPS LOCK и тень
+    // 1. Кнопки: убираем CAPS LOCK, тень и настраиваем ссылки
     MuiButton: {
       defaultProps: {
-        disableElevation: true, //Убираем тень у contained-кнопок
+        disableElevation: true,
+        component: LinkBehavior, // <-- Заменили MuiButtonBase на MuiButton
+        nativeButton: false,
       },
       styleOverrides: {
         root: {
-          textTransform: 'none', // Убираем заглавные буквы у кнопок
+          textTransform: 'none',
+          '&.active': {
+            // Стиль для активной кнопки-ссылки (когда она ведет на текущую страницу)
+            backgroundColor: 'action.selected',
+            fontWeight: 'bold',
+          },
         },
       },
     },
@@ -45,10 +53,19 @@ export const theme = createTheme({
         },
       },
     },
-    // 5. Убираем подчеркивание у ссылок
+    // 5. Ссылки: подчеркивание при наведении, адаптер и стиль активной ссылки
     MuiLink: {
       defaultProps: {
         underline: 'hover',
+        component: LinkBehavior, // <-- Адаптер для ссылок
+      },
+      styleOverrides: {
+        root: {
+          '&.active': {
+            fontWeight: 'bold',
+            color: 'primary.main',
+          },
+        },
       },
     },
     // 6. Скелетоны: задаем цвет из палитры, чтобы были видны в обеих темах
