@@ -1,8 +1,12 @@
-// src/shared/layout/footer/FooterLinks.tsx
 import Stack from '@mui/material/Stack';
 import Link from '@mui/material/Link';
+import { ROUTES } from '@/shared/config/routes';
 
-const links = ['О школе', 'Контакты', 'Политика конфиденциальности'];
+const links = [
+  { label: 'О школе', path: ROUTES.home },
+  { label: 'Контакты', path: ROUTES.home },
+  { label: 'Политика конфиденциальности', path: ROUTES.home },
+];
 
 export function FooterLinks() {
   return (
@@ -13,13 +17,13 @@ export function FooterLinks() {
     >
       {links.map((link) => (
         <Link
-          key={link}
-          href="#"
+          key={link.label}
+          href={link.path} // MUI автоматически подставит LinkBehavior (NavLink)
           underline="hover"
           color="text.secondary"
           sx={{ fontSize: '0.875rem' }}
         >
-          {link}
+          {link.label}
         </Link>
       ))}
     </Stack>
