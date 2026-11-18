@@ -7,4 +7,6 @@ export { NavMenu } from './NavMenu';
 export { HeaderActions } from './HeaderActions';
 export { ThemeToggle } from './ThemeToggle';
 export { MobileMenu } from './mobile-menu/MobileMenu';
+export { Breadcrumbs } from './breadcrumbs';
+export type { BreadcrumbItem } from './breadcrumbs';
 // ... другие экспорты

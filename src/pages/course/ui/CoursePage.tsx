@@ -1,5 +1,58 @@
+// src/pages/course/ui/CoursePage.tsx
 import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import { useParams, Link } from 'react-router';
+import { ErrorState } from '@/shared/ui';
+import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
+import { ROUTES } from '@/shared/config/routes';
 
 export function CoursePage() {
-  return <Typography variant="h4">Страница курса</Typography>;
+  const { courseId } = useParams();
+
+  if (!courseId) {
+    return (
+      <ErrorState
+        title="Курс не найден"
+        message="В адресе отсутствует идентификатор курса."
+      />
+    );
+  }
+
+  const idAsNumber = Number(courseId);
+  if (Number.isNaN(idAsNumber)) {
+    return (
+      <ErrorState
+        title="Курс не найден"
+        message={`Идентификатор «${courseId}» не является числом.`}
+      />
+    );
+  }
+
+  const breadcrumbItems = [
+    { label: 'Главная', href: ROUTES.home },
+    { label: 'Курсы', href: ROUTES.courses },
+    { label: `Курс #${idAsNumber}` },
+  ];
+
+  return (
+    <Stack spacing={2}>
+      <Breadcrumbs items={breadcrumbItems} />
+
+      <Typography variant="h4">Страница курса</Typography>
+      <Typography variant="body1">
+        Идентификатор курса: <strong>{idAsNumber}</strong>
+      </Typography>
+
+      {/* Кнопка «Назад к каталогу» — это ссылка, а не useNavigate */}
+      <Button
+        component={Link}
+        to={ROUTES.courses}
+        variant="outlined"
+        sx={{ alignSelf: 'flex-start' }}
+      >
+        Назад к каталогу
+      </Button>
+    </Stack>
+  );
 }
