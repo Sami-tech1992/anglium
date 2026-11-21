@@ -4,6 +4,7 @@ import Container from '@mui/material/Container';
 import { Outlet } from 'react-router'; // <-- Импорт Outlet
 import { Header } from './header/Header';
 import { Footer } from './footer/Footer';
+import { NotificationsHost } from '@/features/notifications';
 
 export function PageLayout() {
   return (
@@ -16,6 +17,7 @@ export function PageLayout() {
         </Container>
       </Box>
       <Footer />
+      <NotificationsHost />
     </Box>
   );
 }

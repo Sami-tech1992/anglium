@@ -1,10 +1,10 @@
 // src/app/store/store.ts
-import { themeReducer } from '@/features/theme';
+import { notificationsReducer } from '@/features/notifications';
 import { configureStore } from '@reduxjs/toolkit';
 
 export const store = configureStore({
   reducer: {
-    theme: themeReducer, // временный слайс заглушка
+    notifications: notificationsReducer,
   },
 });
 
