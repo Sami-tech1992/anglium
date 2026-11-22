@@ -1,10 +1,12 @@
 // src/app/store/store.ts
+import { courseFiltersReducer } from '@/features/course-filters';
 import { notificationsReducer } from '@/features/notifications';
 import { configureStore } from '@reduxjs/toolkit';
 
 export const store = configureStore({
   reducer: {
     notifications: notificationsReducer,
+    courseFilters: courseFiltersReducer,
   },
 });
 
