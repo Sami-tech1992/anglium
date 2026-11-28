@@ -14,5 +14,9 @@ export interface Course {
   teacherId: string; // <-- Добавили (связь с преподавателем)
 }
 
+export interface GetCoursesParams {
+  level?: CourseLevel | 'all';
+}
+
 export type CreateCourseData = Omit<Course, 'id'>;
 export type UpdateCourseData = Partial<CreateCourseData>;
