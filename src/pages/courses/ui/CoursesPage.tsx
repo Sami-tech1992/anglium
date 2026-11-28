@@ -90,30 +90,119 @@
 // }
 
 // src/pages/courses/ui/CoursesPage.tsx
+// import Typography from '@mui/material/Typography';
+// import Stack from '@mui/material/Stack';
+// import Alert from '@mui/material/Alert';
+// import CircularProgress from '@mui/material/CircularProgress';
+// import { useGetCoursesQuery } from '@/entities/course';
+
+// export function CoursesPage() {
+//   const { data, isLoading, isFetching, isError } = useGetCoursesQuery();
+
+//   return (
+//     <Stack spacing={2} sx={{ py: 4 }}>
+//       <Typography variant="h4">
+//         Страница каталога курсов (временная проверка)
+//       </Typography>
+
+//       <Stack spacing={1}>
+//         <Typography>isLoading: {String(isLoading)}</Typography>
+//         <Typography>isFetching: {String(isFetching)}</Typography>
+//         <Typography>isError: {String(isError)}</Typography>
+//         <Typography>Количество курсов: {data?.length ?? 0}</Typography>
+//       </Stack>
+
+//       {isLoading && <CircularProgress />}
+//       {isError && <Alert severity="error">Ошибка загрузки курсов</Alert>}
+//     </Stack>
+//   );
+// }
+
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
-import { useGetCoursesQuery } from '@/entities/course';
+import { useGetCoursesQuery, CourseCard } from '@/entities/course';
+import { CardSkeleton, ErrorState, EmptyState } from '@/shared/ui';
+
+// Размер будущей страницы (например, 6 или 12).
+// В 7-м эпике (фильтры/пагинация) это число будет приходить из стейта.
+const PAGE_SIZE = 6;
 
 export function CoursesPage() {
-  const { data, isLoading, isFetching, isError } = useGetCoursesQuery();
+  const { data, isLoading, isFetching, isError, refetch } =
+    useGetCoursesQuery();
 
+  // 1. Первая загрузка (скелетоны)
+  if (isLoading) {
+    return (
+      <Box sx={{ py: 2 }}>
+        <Typography variant="h4" component="h1" sx={{ mb: 3 }}>
+          Каталог курсов
+        </Typography>
+        <CardSkeleton count={PAGE_SIZE} />
+      </Box>
+    );
+  }
+
+  // 2. Ошибка (блок с кнопкой повтора)
+  if (isError) {
+    return (
+      <Box sx={{ py: 2 }}>
+        <Typography variant="h4" component="h1" sx={{ mb: 3 }}>
+          Каталог курсов
+        </Typography>
+        <ErrorState
+          onRetry={() => refetch()}
+          message="Не удалось загрузить каталог курсов. Проверьте подключение к интернету."
+        />
+      </Box>
+    );
+  }
+
+  // 3. Пустое состояние (ничего не найдено)
+  if (!data || data.length === 0) {
+    return (
+      <Box sx={{ py: 2 }}>
+        <Typography variant="h4" component="h1" sx={{ mb: 3 }}>
+          Каталог курсов
+        </Typography>
+        <EmptyState
+          title="Ничего не найдено"
+          description="По вашему запросу курсов нет. Попробуйте изменить фильтры."
+        />
+      </Box>
+    );
+  }
+
+  // 4. Успешная загрузка + фоновое обновление (isFetching)
   return (
-    <Stack spacing={2} sx={{ py: 4 }}>
-      <Typography variant="h4">
-        Страница каталога курсов (временная проверка)
-      </Typography>
-
-      <Stack spacing={1}>
-        <Typography>isLoading: {String(isLoading)}</Typography>
-        <Typography>isFetching: {String(isFetching)}</Typography>
-        <Typography>isError: {String(isError)}</Typography>
-        <Typography>Количество курсов: {data?.length ?? 0}</Typography>
+    <Box sx={{ py: 2 }}>
+      <Stack direction="row" spacing={2} sx={{ alignItems: 'center', mb: 3 }}>
+        <Typography variant="h4" component="h1">
+          Каталог курсов
+        </Typography>
+        {/* Маленький спиннер, если данные уже есть, но идет фоновое обновление */}
+        {isFetching && <CircularProgress size={24} color="primary" />}
       </Stack>
 
-      {isLoading && <CircularProgress />}
-      {isError && <Alert severity="error">Ошибка загрузки курсов</Alert>}
-    </Stack>
+      {/* Легкое затемнение списка во время фонового обновления */}
+      <Box
+        sx={{
+          opacity: isFetching ? 0.6 : 1,
+          transition: 'opacity 0.2s ease-in-out',
+          pointerEvents: isFetching ? 'none' : 'auto', // Блокируем клики пока грузится
+        }}
+      >
+        <Grid container spacing={3}>
+          {data.map((course) => (
+            <Grid key={course.id} size={{ xs: 12, sm: 6, md: 4 }}>
+              <CourseCard course={course} />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </Box>
   );
 }
