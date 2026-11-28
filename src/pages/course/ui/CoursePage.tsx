@@ -5,8 +5,11 @@ import { useParams, Link } from 'react-router';
 import { ErrorState } from '@/shared/ui';
 import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 import { ROUTES } from '@/shared/config/routes';
+import { useUpdateCourseMutation } from '@/entities/course';
 
 export function CoursePage() {
+  const [updateCourse, { isLoading }] = useUpdateCourseMutation();
+
   const { courseId } = useParams();
 
   if (!courseId) {
@@ -48,6 +51,14 @@ export function CoursePage() {
         sx={{ alignSelf: 'flex-start' }}
       >
         Назад к каталогу
+      </Button>
+      <Button
+        variant="contained"
+        color="warning"
+        disabled={isLoading}
+        onClick={() => updateCourse({ id: courseId, data: { price: 9999 } })}
+      >
+        Изменить цену на 9999
       </Button>
     </Stack>
   );

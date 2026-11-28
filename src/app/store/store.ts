@@ -3,6 +3,7 @@ import { courseFiltersReducer } from '@/features/course-filters';
 import { notificationsReducer } from '@/features/notifications';
 import { baseApi } from '@/shared/api';
 import { configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,9 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),
 });
+
+// Включает слушатели для refetchOnFocus и refetchOnReconnect
+setupListeners(store.dispatch);
 
 // Выводим типы из самого store (согласно TypeScript Quick Start)
 export type RootState = ReturnType<typeof store.getState>; // 1. Тип всего состояния

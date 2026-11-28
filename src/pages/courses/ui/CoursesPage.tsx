@@ -118,6 +118,8 @@
 //   );
 // }
 
+// src/pages/courses/ui/CoursesPage.tsx
+// src/pages/courses/ui/CoursesPage.tsx
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -126,15 +128,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useGetCoursesQuery, CourseCard } from '@/entities/course';
 import { CardSkeleton, ErrorState, EmptyState } from '@/shared/ui';
 
-// Размер будущей страницы (например, 6 или 12).
-// В 7-м эпике (фильтры/пагинация) это число будет приходить из стейта.
 const PAGE_SIZE = 6;
 
 export function CoursesPage() {
   const { data, isLoading, isFetching, isError, refetch } =
     useGetCoursesQuery();
 
-  // 1. Первая загрузка (скелетоны)
   if (isLoading) {
     return (
       <Box sx={{ py: 2 }}>
@@ -146,7 +145,6 @@ export function CoursesPage() {
     );
   }
 
-  // 2. Ошибка (блок с кнопкой повтора)
   if (isError) {
     return (
       <Box sx={{ py: 2 }}>
@@ -161,7 +159,6 @@ export function CoursesPage() {
     );
   }
 
-  // 3. Пустое состояние (ничего не найдено)
   if (!data || data.length === 0) {
     return (
       <Box sx={{ py: 2 }}>
@@ -176,23 +173,20 @@ export function CoursesPage() {
     );
   }
 
-  // 4. Успешная загрузка + фоновое обновление (isFetching)
   return (
     <Box sx={{ py: 2 }}>
       <Stack direction="row" spacing={2} sx={{ alignItems: 'center', mb: 3 }}>
         <Typography variant="h4" component="h1">
           Каталог курсов
         </Typography>
-        {/* Маленький спиннер, если данные уже есть, но идет фоновое обновление */}
         {isFetching && <CircularProgress size={24} color="primary" />}
       </Stack>
 
-      {/* Легкое затемнение списка во время фонового обновления */}
       <Box
         sx={{
           opacity: isFetching ? 0.6 : 1,
           transition: 'opacity 0.2s ease-in-out',
-          pointerEvents: isFetching ? 'none' : 'auto', // Блокируем клики пока грузится
+          pointerEvents: isFetching ? 'none' : 'auto',
         }}
       >
         <Grid container spacing={3}>
