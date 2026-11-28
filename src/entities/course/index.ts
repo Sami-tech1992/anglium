@@ -1,6 +1,10 @@
 export { COURSE_LEVELS } from './model/typesCourses';
 
-export { useGetCoursesQuery, useGetCourseByIdQuery } from './api/coursesApi';
+export {
+  useGetCoursesQuery,
+  useGetCourseByIdQuery,
+  useUpdateCourseMutation,
+} from './api/coursesApi';
 
 export type {
   Course,
