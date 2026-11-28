@@ -14,3 +14,6 @@ export {
   selectHasActiveFilters,
 } from './model/selectors';
 export type { CourseFiltersState } from './model/types';
+export { CourseLevelFilter } from './ui/CourseLevelFilter';
+export { LevelChips } from './ui/LevelChips';
+export { ResetFiltersButton } from './ui/ResetFiltersButton';

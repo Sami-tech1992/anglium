@@ -1,14 +1,28 @@
+// src/entities/course/api/coursesApi.ts
 import { baseApi } from '@/shared/api';
 import type {
   Course,
+  GetCoursesParams,
   UpdateCourseData,
 } from '@/entities/course/model/typesCourses';
 
 export const coursesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // Получить список курсов
-    getCourses: builder.query<Course[], void>({
-      query: () => '/courses',
+    // 1. Получить список курсов (с поддержкой фильтра по уровню)
+    getCourses: builder.query<Course[], GetCoursesParams | void>({
+      query: (params) => {
+        // Если параметров нет или уровень = 'all', не отправляем level на сервер
+        const queryParams: Record<string, string> = {};
+
+        if (params?.level && params.level !== 'all') {
+          queryParams.level = params.level;
+        }
+
+        return {
+          url: '/courses',
+          params: queryParams,
+        };
+      },
       providesTags: (result) =>
         result
           ? [
@@ -20,11 +34,13 @@ export const coursesApi = baseApi.injectEndpoints({
           : [{ type: 'Course', id: 'LIST' }],
     }),
 
-    // Получить один курс по ID
+    // 2. Получить один курс по ID
     getCourseById: builder.query<Course, string>({
       query: (id) => `/courses/${id}`,
       providesTags: (_result, _error, id) => [{ type: 'Course', id }],
     }),
+
+    // 3. Обновить курс (PATCH)
     updateCourse: builder.mutation<
       Course,
       { id: string; data: UpdateCourseData }
@@ -34,31 +50,18 @@ export const coursesApi = baseApi.injectEndpoints({
         method: 'PATCH',
         body: data,
       }),
-      // Инвалидируем тег конкретного курса, чтобы обновились данные на странице
-      // и тег LIST, так как в списке могут отображаться поля, которые мы меняем (например, цена или название)
-      // Оптимизированный вариант (на будущее)
-      invalidatesTags: (_result, _error, { id, data }) => {
-        const listTags = [{ type: 'Course' as const, id: 'LIST' }];
-        const itemTags = [{ type: 'Course' as const, id }];
-
-        // Если в data есть поля, которые видны в списке — сбрасываем и список
-        const affectsList = [
-          'title',
-          'price',
-          'level',
-          'rating',
-          'description',
-          'duration',
-        ].some((key) => key in data);
-
-        return affectsList ? [...itemTags, ...listTags] : itemTags;
-      },
+      // Инвалидируем тег конкретного курса и тег списка (так как поля видны в каталоге)
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: 'Course', id },
+        { type: 'Course', id: 'LIST' },
+      ],
     }),
   }),
 });
 
+// Экспортируем хуки для использования в компонентах
 export const {
   useGetCoursesQuery,
   useGetCourseByIdQuery,
-  useUpdateCourseMutation, // Экспортируем новый хук
+  useUpdateCourseMutation,
 } = coursesApi;
