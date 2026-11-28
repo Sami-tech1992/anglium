@@ -8,3 +8,5 @@ export type {
   CreateCourseData,
   UpdateCourseData,
 } from './model/typesCourses';
+
+export { CourseCard } from './ui/CourseCard';
