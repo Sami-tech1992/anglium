@@ -1,12 +1,15 @@
-// src/pages/course/ui/CoursePage.tsx
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import { useParams } from 'react-router';
+import Button from '@mui/material/Button';
+import { useParams, Link } from 'react-router';
 import { ErrorState } from '@/shared/ui';
 import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 import { ROUTES } from '@/shared/config/routes';
+import { useUpdateCourseMutation } from '@/entities/course';
 
 export function CoursePage() {
+  const [updateCourse, { isLoading }] = useUpdateCourseMutation();
+
   const { courseId } = useParams();
 
   if (!courseId) {
@@ -18,7 +21,7 @@ export function CoursePage() {
     );
   }
 
-  // Проверяем, что ID — это число (строка из цифр)
+  // Проверка на числовой ID (согласно багу из 6.2)
   if (!/^\d+$/.test(courseId)) {
     return (
       <ErrorState
@@ -27,9 +30,6 @@ export function CoursePage() {
       />
     );
   }
-
-  // Дальше можно использовать courseId как строку для запроса к API
-  // Например: fetch(`${env.apiUrl}/courses/${courseId}`)
 
   const breadcrumbItems = [
     { label: 'Главная', href: ROUTES.home },
@@ -44,6 +44,22 @@ export function CoursePage() {
       <Typography variant="body1">
         Идентификатор курса: <strong>{courseId}</strong>
       </Typography>
+      <Button
+        component={Link}
+        to={ROUTES.courses}
+        variant="outlined"
+        sx={{ alignSelf: 'flex-start' }}
+      >
+        Назад к каталогу
+      </Button>
+      <Button
+        variant="contained"
+        color="warning"
+        disabled={isLoading}
+        onClick={() => updateCourse({ id: courseId, data: { price: 9999 } })}
+      >
+        Изменить цену на 9999
+      </Button>
     </Stack>
   );
 }
